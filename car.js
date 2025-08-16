@@ -37,7 +37,8 @@ class Car {
 
     if (this.speed < 0) {
       this.speed += this.friction;
-    } else {
+    } 
+    if (this.speed > 0) {
       this.speed -= this.friction;
     }
 
@@ -57,6 +58,8 @@ class Car {
 
     this.x -= Math.sin(this.angle) * this.speed;
     this.y -= Math.cos(this.angle) * this.speed;
+
+    console.table(this);
   }
   draw(ctx) {
     // Save Canvas
