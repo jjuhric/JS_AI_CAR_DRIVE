@@ -12,11 +12,13 @@ class Car {
 
     this.angle = 0;
 
+    this.sensor = new Sensor(this);
     this.controls = new Controls();
   }
 
   update() {
     this.#move();
+    this.sensor.update();
   }
 
   #move() {
@@ -67,10 +69,18 @@ class Car {
     ctx.translate(this.x, this.y);
     ctx.rotate(-this.angle);
     ctx.beginPath();
-    ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
-    ctx.strokeStyle = "#0C264C";
-    ctx.fillStyle = "#B0B7BC";
+    ctx.rect(
+      -this.width / 2,
+      -this.height / 2,
+      this.width,
+      this.height
+    );
+    ctx.strokeStyle = "#B0B7BC";
+    ctx.fillStyle = "#0C264C";
     ctx.fill();
     ctx.stroke();
+    ctx.restore();
+
+    this.sensor.draw(ctx);
   }
 }
