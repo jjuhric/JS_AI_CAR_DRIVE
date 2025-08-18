@@ -68,6 +68,9 @@ class Car {
     ctx.rotate(-this.angle);
     ctx.beginPath();
     ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+    ctx.strokeStyle = "#0C264C";
+    ctx.fillStyle = "#B0B7BC";
     ctx.fill();
+    ctx.stroke();
   }
 }
