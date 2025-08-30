@@ -2,25 +2,18 @@
  * Represents a sensor attached to a car for detecting obstacles and road borders.
  */
 /**
- * Represents a sensor attached to a car that casts multiple rays to detect intersections with road borders.
- * Used for simulating perception in autonomous vehicles or similar applications.
+ * Represents a sensor attached to a car that casts multiple rays to detect
+ * intersections with road borders. Used for simulating perception in autonomous
+ * vehicles or similar applications.
  *
- * @class Sensor
- * @param {Car} car - The car to which the sensor is attached.
- * @property {Car} car - The car instance the sensor is attached to.
- * @property {number} rayCount - The number of rays cast by the sensor.
- * @property {number} rayLength - The length of each ray.
- * @property {number} raySpread - The spread angle of the rays in radians.
- * @property {Array<Array<Object>>} rays - Array storing the start and end points of each ray.
- * @property {Array<Object|null>} readings - Array storing the intersection readings for each ray.
- *
- * @method update
- * Updates the sensor readings by casting rays and detecting intersections with road borders.
- * @param {Array<Array<Object>>} roadBorders - Array representing the borders of the road to check for intersections.
- *
- * @method draw
- * Draws the sensor rays on the provided canvas context.
- * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
+ * @class
+ * @param {Car} car The car to which the sensor is attached.
+ * @property {Car} car The car instance the sensor is attached to.
+ * @property {number} rayCount The number of rays cast by the sensor.
+ * @property {number} rayLength The length of each ray.
+ * @property {number} raySpread The spread angle of the rays in radians.
+ * @property {Array<Array<Object>>} rays Array storing the start and end points of each ray.
+ * @property {Array<Object|null>} readings Array storing the intersection readings for each ray.
  */
 class Sensor {
     /**
@@ -43,7 +36,7 @@ class Sensor {
          * The spread angle of the rays in radians (e.g., Math.PI / 2 for 90 degrees).
          * @type {number}
          */
-        this.raySpread = Math.PI / 2; //90 degrees
+        this.raySpread = Math.PI / 2;
 
         /**
          * An array to store the start and end points of each ray.
@@ -54,7 +47,7 @@ class Sensor {
 
     /**
      * Updates the sensor readings by casting rays and detecting intersections with road borders.
-     * @param {Array} roadBorders - An array representing the borders of the road to check for intersections.
+     * @param {Array<Array<Object>>} roadBorders An array representing the borders of the road to check for intersections.
      */
     update(roadBorders) {
         this.#castRays();
@@ -71,8 +64,8 @@ class Sensor {
      * Iterates through all road borders, finds intersections, and returns the one with the smallest offset (closest to the ray's origin).
      *
      * @private
-     * @param {Array<Object>} ray - An array containing the start and end points of the ray [{x, y}, {x, y}].
-     * @param {Array<Array<Object>>} roadBorders - An array of road borders, each defined by two points [[{x, y}, {x, y}], ...].
+     * @param {Array<Object>} ray An array containing the start and end points of the ray [{x, y}, {x, y}].
+     * @param {Array<Array<Object>>} roadBorders An array of road borders, each defined by two points [[{x, y}, {x, y}], ...].
      * @returns {Object|null} The closest intersection object with an 'offset' property, or null if no intersection is found.
      */
     #getReading(ray, roadBorders) {
@@ -124,16 +117,34 @@ class Sensor {
      */
     draw(ctx) {
         for(let i = 0; i < this.rayCount; i++) {
+            let end = this.rays[i][1]
+            if(this.readings[i]) {
+                end = this.readings[i]
+            }
+
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.strokeStyle = "red";
+            ctx.strokeStyle = "#9bb"
             ctx.moveTo(
                 this.rays[i][0].x,
                 this.rays[i][0].y
             );
             ctx.lineTo(
+                end.x,
+                end.y
+            );
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "red"
+            ctx.moveTo(
                 this.rays[i][1].x,
                 this.rays[i][1].y
+            );
+            ctx.lineTo(
+                end.x,
+                end.y
             );
             ctx.stroke();
         }
